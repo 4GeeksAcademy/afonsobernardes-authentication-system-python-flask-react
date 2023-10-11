@@ -1,3 +1,4 @@
+from hmac import compare_digest
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -17,3 +18,6 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+    def check_password(self, password):
+        return compare_digest(password, self.password)
