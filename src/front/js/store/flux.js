@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
+			accessToken: "",
 		},
 
 		actions: {
@@ -17,6 +18,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 				}catch(error){
 					console.log("Error loading message from backend", error)
+				}
+			},
+
+			getToken: async () => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "api/token", 
+												{
+													method: "POST",
+													headers: {
+														"Content-Type": "application/json",
+													},
+
+													body: JSON.stringify({
+														"email": "adb@hotmail.com",
+														"password": "qwerty123"
+													}),
+												}
+											);
+					const credentials = await resp.json()
+					setStore({ accessToken: credentials.access_token })
+					
+					// don't forget to return something, that is how the async resolves
+					return credentials;
+				}catch(error){
+					console.log("Error loading access token from backend", error)
 				}
 			},
 		}

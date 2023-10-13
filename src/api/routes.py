@@ -9,7 +9,7 @@ from flask_jwt_extended import create_access_token
 api = Blueprint('api', __name__)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
+@api.route('/hello', methods=['GET'])
 def handle_hello():
 
     response_body = {
@@ -36,7 +36,7 @@ def sign_up():
 
     return jsonify({"message": "The user has been created successfully"}), 200
 
-@api.route('/token', methods=['POST'])
+@api.route('/token', methods=['POST', 'PUT'])
 def create_token():
 
     user_data = request.get_json()
