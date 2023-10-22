@@ -13,8 +13,7 @@ export const Login = () => {
         actions.getToken(email, password) // Get token from backend if user is in database.
             .then(resp => {
                 if (resp.access_token) {
-                    localStorage.setItem('credentials', JSON.stringify(resp.access_token))
-                    console.log("ACCESS TOKEN", localStorage.getItem('credentials'))
+                    console.log("ACCESS TOKEN", localStorage.getItem('access_token'))
                     navigate("/")
                 }
                 else {

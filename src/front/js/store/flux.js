@@ -2,12 +2,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			accessToken: "",
+			accessToken: null,
 		},
 
 		actions: {
 			// Use getActions to call a function within a fuction
-
 			getMessage: async () => {
 				try {
 					// fetching data from the backend
@@ -63,14 +62,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					);
 					const credentials = await resp.json()
-					setStore({ accessToken: credentials.access_token })
+					localStorage.setItem('access_token', JSON.stringify(credentials.access_token))
+					getActions().syncStoreToLocalStorage()
 					return credentials;
 				}
-
 				catch (error) {
 					console.log("Error loading access token from backend", error)
 				}
 			},
+
+
+			syncStoreToLocalStorage: () => {
+				setStore( {'accessToken': localStorage.getItem('access_token')} )
+			}
 		}
 	};
 };
