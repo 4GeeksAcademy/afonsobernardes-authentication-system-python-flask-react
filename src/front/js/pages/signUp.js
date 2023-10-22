@@ -1,15 +1,18 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
     const { store, actions } = useContext(Context);
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate();
 
     const handleSignUp = (event) => {
         event.preventDefault()
-        actions.createUser(email, password) // Add USEr to database.
-        actions.getToken(email, password) // Get token from backend if user is in database.
+        actions.createUser(email, password) // Add USER to database.
+        //actions.getToken(email, password) // Get token from backend if user is in database.
+        navigate("/login")
     }
 
     return (

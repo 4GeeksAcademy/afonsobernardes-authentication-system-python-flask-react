@@ -8,9 +8,8 @@ from flask_jwt_extended import create_access_token
 
 api = Blueprint('api', __name__)
 
-
-@api.route('/hello', methods=['GET'])
-def handle_hello():
+@api.route('/', methods=['GET'])
+def home():
     response_body = {
         "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
     }
@@ -21,6 +20,11 @@ def handle_hello():
 def sign_up():
     # Process the information coming from the client
     user_data = request.get_json()
+    
+    user_exists = User.query.filter_by(email=user_data["email"]).first()
+
+    if user_exists:
+        return jsonify({"message": "The user already exists in the database."}), 403
     
     # We create an instance without being recorded in the database
     user = User(email=user_data["email"], password=user_data["password"])
