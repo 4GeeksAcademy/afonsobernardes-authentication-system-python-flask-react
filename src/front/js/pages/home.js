@@ -7,7 +7,7 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Welcome to my Simple Authentication App</h1>
+			<h1>Afonso Bernardes - Authentication App</h1>
 			<p>
 				<img src="https://skytechgeek.com/wp-content/uploads/2019/06/full-stack-developer.jpg" />
 			</p>

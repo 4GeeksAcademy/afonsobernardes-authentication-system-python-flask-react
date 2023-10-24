@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
@@ -49,3 +49,12 @@ def create_token():
     # Notice that we are passing in the actual sqlalchemy user object here
     access_token = create_access_token(identity=user.serialize())
     return jsonify(access_token=access_token), 200
+
+@api.route('/private', methods=['GET'])
+@jwt_required()
+def get_private():
+    # Access the identity of the current user with get_jwt_identity
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    
+    return jsonify({"id": user.id, "email": user.email, "password": user.password }), 200

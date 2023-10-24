@@ -14,7 +14,7 @@ export const Login = () => {
             .then(resp => {
                 if (resp.access_token) {
                     console.log("ACCESS TOKEN", localStorage.getItem('access_token'))
-                    navigate("/")
+                    navigate("/private")
                 }
                 else {
                     alert(resp.message)
