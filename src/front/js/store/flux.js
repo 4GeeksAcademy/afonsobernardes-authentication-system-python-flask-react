@@ -36,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							}),
 						}
 					);
-					if (resp.status == 403) {alert('USER ALREADY EXISTS, REDIRECTED TO LOGIN.')}
+					if (resp.status == 403) { alert('USER ALREADY EXISTS, REDIRECTED TO LOGIN.') }
 					return resp;
 				}
 				catch (error) {
@@ -71,9 +71,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			getUser: async () => {
+				const resp = await fetch(process.env.BACKEND_URL + "api/private", {
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + localStorage.getItem('access_token') // ⬅⬅⬅ authorization token
+					}
+				})
+
+				if (!resp.ok) throw Error("There was a problem in the login request")
+
+				else if (resp.status === 403) {
+					throw Error("Missing or invalid token");
+				}
+				else {
+					throw Error('Uknon error');
+				}
+
+				const data = await resp.json();
+				console.log("This is the data you requested", data);
+				return data
+			},
+
 
 			syncStoreToLocalStorage: () => {
-				setStore( {'accessToken': localStorage.getItem('access_token')} )
+				setStore({ 'accessToken': localStorage.getItem('access_token') })
 			}
 		}
 	};
