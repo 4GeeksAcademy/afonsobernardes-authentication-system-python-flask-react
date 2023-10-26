@@ -76,9 +76,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: 'GET',
 					headers: {
 						"Content-Type": "application/json",
-						'Authorization': 'Bearer ' + localStorage.getItem('access_token') // ⬅⬅⬅ authorization token
+						"Authorization": "Bearer " + localStorage.getItem('access_token') // ⬅⬅⬅ authorization token
 					}
 				})
+
+				console.log(localStorage.getItem('access_token'))
+				const data = await resp.json();
+				console.log("This is the data you requested", data);
+				
+				return data
 
 				if (!resp.ok) throw Error("There was a problem in the login request")
 
@@ -86,12 +92,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw Error("Missing or invalid token");
 				}
 				else {
-					throw Error('Uknon error');
+					const data = await resp.json();
+					console.log("This is the data you requested", data);
+					return data
 				}
 
-				const data = await resp.json();
-				console.log("This is the data you requested", data);
-				return data
 			},
 
 

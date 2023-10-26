@@ -20,7 +20,6 @@ def home():
 def sign_up():
     # Process the information coming from the client
     user_data = request.get_json()
-    
     user_exists = User.query.filter_by(email=user_data["email"]).first()
 
     if user_exists:
@@ -48,13 +47,15 @@ def create_token():
     
     # Notice that we are passing in the actual sqlalchemy user object here
     access_token = create_access_token(identity=user.serialize())
-    return jsonify(access_token=access_token), 200
+    return jsonify({"access_token": access_token}), 200
 
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def get_private():
     # Access the identity of the current user with get_jwt_identity
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
+    print("DISFHDSFDFISDNFSEJFI")
+    current_user_email = get_jwt_identity()
+    print("HERE HERE HERE", current_user_email)
+    # user = User.query.filter_by(email=current_user_email)
     
-    return jsonify({"id": user.id, "email": user.email, "password": user.password }), 200
+    # return jsonify({"id": user.id, "email": user.email, "password": user.password }), 200

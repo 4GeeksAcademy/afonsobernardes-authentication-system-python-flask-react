@@ -5,11 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const Private = () => {
     const { store, actions } = useContext(Context);
-    //const [ user, setUser ] = useState("")
+    const [ user, setUser ] = useState("")
     const navigate = useNavigate();
 
     useEffect(() => {
-        setUser(actions.getUser())
+        actions.getUser()
     })
 
     return(
